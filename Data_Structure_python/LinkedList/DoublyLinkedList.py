@@ -1,14 +1,16 @@
 class Node(object):
-	def __init__(self,data,prevnode,nextnode):
-		self.data = data
-		self.prev = prevnode
-		self.next = nextnode
+	def __init__(self,data,nodeprev,nodenext):
+		self.element = data
+		self.prev = nodeprev
+		self.next = nodenext
 	
-	def SetPrev(self,prevnode): self.prev = prevnode
-	def SetNext(self,nextnode): self.next = nextnode
-	def getPrev(self): return self.prevnode
-	def getNext(self): return self.nextnode
-	def getData(self) : return self.data
+	def SetPrev(self,nodeprev): 
+		self.prev = nodeprev
+	def SetNext(self,nodenext): 
+		self.next = nodenext
+	def getPrev(self):return self.prev
+	def getNext(self):return self.next
+	def getelement(self) : return self.element
 
 class DoublyLinkedList(Node):
 	def __init__(self):
@@ -17,22 +19,24 @@ class DoublyLinkedList(Node):
 		self.trailer = Node(None,None,None)
 	def size(self) :return self.size
 	def isEmpty(self): return (self.size == 0)
-	def addFirst(self,data):
-		new = Node(data,None,self.header)
-		self.header.SetPrev(new)
-		self.header = new
-		if (self.isEmpty()):
+	def addFirst(self,element):
+		if self.isEmpty():
+			self.header = Node(element,None,None)
 			self.trailer = self.header
+		else:
+			new = Node(element,None,self.header)
+			self.header.SetPrev(new)
+			self.header = new
 		self.size += 1
 
-	def addLast(self,data): 
-		new = Node(data,self.trailer,None)
-		print(self.isEmpty())
+	def addLast(self,element):
+		node = Node(element,None,None) 
 		if self.isEmpty():
-			self.header = self.trailer
+			self.header = node
 		else:
-			self.trailer.SetNext(new)
-		self.trailer = new
+			# node.SetPrev(self.trailer)
+			self.trailer.SetNext(node)
+		self.trailer = node
 		self.size += 1
 
 	def removeFirst(self):
@@ -49,12 +53,12 @@ class DoublyLinkedList(Node):
 		front.SetNext(last)
 		last.SetPrev(front)
 		self.size -= 1
-		return node.getData()
+		return node.getelement()
 	
 	def printlist(self):
 		snake = self.header
-		print("Header-> ",end = '')
-		while snake != None:
-			print(snake.getData(),end = ' -> ')
+		print("Header->",snake.getelement(),end = ' -> ')
+		while snake.getNext() != None:
+			print(snake.getelement(),end = " -> ")
 			snake = snake.getNext()
-		print(snake.getData(),end = 'Trailer')
+		print('Trailer')
