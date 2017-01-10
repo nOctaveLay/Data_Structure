@@ -34,18 +34,31 @@ class DoublyLinkedList(Node):
 		if self.isEmpty():
 			self.header = node
 		else:
-			# node.SetPrev(self.trailer)
+			node.SetPrev(self.trailer)
 			self.trailer.SetNext(node)
 		self.trailer = node
 		self.size += 1
 
 	def removeFirst(self):
 		if self.isEmpty() :return None
-		self.remove(self.header)
+		else:
+			temp = self.header
+			new = self.header.getNext()
+			self.header.SetNext(None)
+			new.SetPrev(None)
+			self.header = new
+			return temp.getelement()
+
 
 	def removeLast(self):
 		if self.isEmpty() : return None
-		self.remove(self.trailer)
+		else:
+			temp = self.trailer
+			new = self.trailer.getPrev()
+			self.trailer.SetPrev(None)
+			new.SetNext(None)
+			self.trailer = new
+			return temp.getelement()
 	
 	def remove(self,node):
 		front = node.getPrev()
@@ -59,6 +72,6 @@ class DoublyLinkedList(Node):
 		snake = self.header
 		print("Header->",snake.getelement(),end = ' -> ')
 		while snake.getNext() != None:
-			print(snake.getelement(),end = " -> ")
+			print(snake.getNext().getelement(),end = " -> ")
 			snake = snake.getNext()
 		print('Trailer')
